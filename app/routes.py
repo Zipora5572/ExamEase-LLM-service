@@ -8,6 +8,12 @@ from services.grading import grade_exam
 
 def register_routes(app):
 
+
+    @app.route('/')
+    def home():
+        return 'Hello, World!'
+
+
     @app.route('/extract-name', methods=['POST'])
     def extract_name():
         uploaded_file = request.files.get('file')
