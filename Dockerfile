@@ -32,4 +32,4 @@ COPY app /app
 EXPOSE 5000
 
 # Run the application
-CMD ["gunicorn", "-b", "0.0.0.0:5000", "app.main:app"]
+CMD ["gunicorn", "-b", "0.0.0.0:5000", "app.app.main:app"]
