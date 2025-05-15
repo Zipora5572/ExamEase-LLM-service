@@ -12,6 +12,9 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
+ENV TESSDATA_PREFIX=/usr/share/tesseract-ocr/4.00/tessdata/
+
+
 # הגדרת תקיית העבודה
 WORKDIR /app
 
@@ -22,7 +25,7 @@ COPY . /app
 RUN pip install --no-cache-dir -r requirements.txt
 
 # חשיפת הפורט החדש
-EXPOSE 5001
+EXPOSE 5000
 
 # הרצת האפליקציה
 CMD ["python", "main.py"]
