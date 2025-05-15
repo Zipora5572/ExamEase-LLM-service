@@ -14,22 +14,23 @@ RUN apt-get update && apt-get install -y \
 
 ENV TESSDATA_PREFIX=/usr/share/tesseract-ocr/4.00/tessdata/
 
-# Set the working directory
-WORKDIR /app
+# Set working directory to root
+WORKDIR /
 
 # Copy requirements.txt first to leverage Docker cache
-COPY requirements.txt /app/
+COPY requirements.txt /app/requirements.txt
 
 # Install dependencies
-RUN pip install --no-cache-dir -r requirements.txt gunicorn
+RUN pip install --no-cache-dir -r /app/requirements.txt gunicorn
 
-# Copy the rest of the application files
-
-# Copy the app directory
+# Copy the app directory into /app
 COPY app /app
+
+# Set PYTHONPATH to /app so Python finds the app module
+ENV PYTHONPATH=/app
 
 # Expose the port
 EXPOSE 5000
 
 # Run the application
-CMD ["gunicorn", "-b", "0.0.0.0:5000", "app.app.main:app"]
+CMD ["gunicorn", "-b", "0.0.0.0:5000", "app.main:app"]
