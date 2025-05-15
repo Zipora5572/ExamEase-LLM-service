@@ -1,7 +1,7 @@
-# בסיס של פייתון
+# Base image for Python
 FROM python:3.12-slim
 
-# התקנת תלות למנוע Tesseract
+# Install dependencies for Tesseract
 RUN apt-get update && apt-get install -y \
     tesseract-ocr \
     tesseract-ocr-heb \
@@ -14,18 +14,20 @@ RUN apt-get update && apt-get install -y \
 
 ENV TESSDATA_PREFIX=/usr/share/tesseract-ocr/4.00/tessdata/
 
-
-# הגדרת תקיית העבודה
+# Set the working directory
 WORKDIR /app
 
-# העתקת הקבצים לקונטיינר
-COPY . /app
+# Copy requirements.txt first to leverage Docker cache
+COPY requirements.txt /app/
 
-# התקנת התלויות
+# Install dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# חשיפת הפורט החדש
+# Copy the rest of the application files
+COPY . /app
+
+# Expose the port
 EXPOSE 5000
 
-# הרצת האפליקציה
-CMD ["python", "main.py"]
+# Run the application
+CMD ["python", "app/main.py"]
