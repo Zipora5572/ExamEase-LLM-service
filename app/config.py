@@ -1,6 +1,11 @@
 import os
-from dotenv import load_dotenv
 
-load_dotenv()
-os.environ['OPENAI_API_KEY'] = os.getenv("OPENAI_API_KEY")
-# os.environ["TESSDATA_PREFIX"] = r"C:\Program Files\Tesseract-OCR\tessdata"
+class Config:
+    SECRET_KEY = os.getenv("SECRET_KEY", "default-secret-key")
+   
+
+class DevelopmentConfig(Config):
+    DEBUG = True
+
+class ProductionConfig(Config):
+    DEBUG = False

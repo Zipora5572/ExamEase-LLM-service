@@ -81,6 +81,7 @@ def register_routes(app):
             student_exam_file = request.files['student_exam']
             teacher_exam_file = request.files['teacher_exam']
             language = request.form.get('lang', 'eng+heb')
+            language = 'eng' if 'eng' in language else 'heb' if 'heb' in language else 'eng+heb'
 
             student_image = Image.open(student_exam_file.stream)
             teacher_image = Image.open(teacher_exam_file.stream)
